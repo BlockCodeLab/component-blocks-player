@@ -20,9 +20,9 @@ const supportedEvents = new Set([
 
 export function BlocksPlayer({ width, height, onSetup, ...props }) {
   const ref = useRef(null);
-  const { fileList, selectedIndex, modifyFile } = useEditor();
+  const { fileList, selectedFileId, modifyFile } = useEditor();
 
-  const file = fileList[selectedIndex];
+  const file = fileList.find((file) => file.id === selectedFileId);
   ref.script = file.script;
   ref.xml = file.xml;
 
