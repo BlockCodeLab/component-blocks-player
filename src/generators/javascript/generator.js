@@ -179,7 +179,7 @@ javascriptGenerator.scrubNakedValue = function (line) {
 javascriptGenerator.quote_ = function (string) {
   // Can't use goog.string.quote since Google's style guide recommends
   // JS string literals use single quotes.
-  string = string.replace(/\\/g, '\\\\').replace(/\n/g, '\\\n').replace(/'/g, "\\'");
+  // string = string.replace(/\\/g, '\\\\').replace(/\n/g, '\\\n').replace(/'/g, "\\'");
   return "'" + string + "'";
 };
 
