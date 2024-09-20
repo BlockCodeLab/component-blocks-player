@@ -120,6 +120,7 @@ export default class Runtime extends EventEmitter {
 
   async stop() {
     this.emit('stop');
+    await this.nextFrame();
     this._running = false;
     await this.nextFrame();
     this._timers.forEach(clearTimeout);
