@@ -21,7 +21,8 @@ javascriptGenerator['procedures_call'] = (block) => {
   const args = block.argumentIds_.map((arg) =>
     javascriptGenerator.valueToCode(block, arg, javascriptGenerator.ORDER_NONE),
   );
-  return `await ${functionName}(${args.join(',')}, target);\n`;
+  args.push('target');
+  return `await ${functionName}(${args.join(',')});\n`;
 };
 
 // javascriptGenerator['procedures_prototype'] = (block) => {
