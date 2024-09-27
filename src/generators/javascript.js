@@ -1,5 +1,3 @@
-export { javascriptGenerator as default } from './javascript/generator';
-
 import './javascript/color';
 import './javascript/control';
 import './javascript/data';
@@ -9,3 +7,5 @@ import './javascript/operators';
 import './javascript/procedures';
 import './javascript/sensing';
 import './javascript/text';
+
+export { JavascriptGenerator } from './javascript/generator';

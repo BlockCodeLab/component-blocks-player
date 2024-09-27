@@ -1,125 +1,125 @@
 import { javascriptGenerator } from './generator';
 
-javascriptGenerator['operator_add'] = (block) => {
-  const num1Code = javascriptGenerator.valueToCode(block, 'NUM1', javascriptGenerator.ORDER_NONE) || 0;
-  const num2Code = javascriptGenerator.valueToCode(block, 'NUM2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_add'] = function (block) {
+  const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
+  const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
   const code = `(runtime.number(${num1Code}) + runtime.number(${num2Code}))`;
-  return [code, javascriptGenerator.ORDER_SUBTRACTION];
+  return [code, this.ORDER_SUBTRACTION];
 };
 
-javascriptGenerator['operator_subtract'] = (block) => {
-  const num1Code = javascriptGenerator.valueToCode(block, 'NUM1', javascriptGenerator.ORDER_NONE) || 0;
-  const num2Code = javascriptGenerator.valueToCode(block, 'NUM2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_subtract'] = function (block) {
+  const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
+  const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
   const code = `(runtime.number(${num1Code}) - runtime.number(${num2Code}))`;
-  return [code, javascriptGenerator.ORDER_ADDITION];
+  return [code, this.ORDER_ADDITION];
 };
 
-javascriptGenerator['operator_multiply'] = (block) => {
-  const num1Code = javascriptGenerator.valueToCode(block, 'NUM1', javascriptGenerator.ORDER_NONE) || 0;
-  const num2Code = javascriptGenerator.valueToCode(block, 'NUM2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_multiply'] = function (block) {
+  const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
+  const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
   const code = `(runtime.number(${num1Code}) * runtime.number(${num2Code}))`;
-  return [code, javascriptGenerator.ORDER_MULTIPLICATION];
+  return [code, this.ORDER_MULTIPLICATION];
 };
 
-javascriptGenerator['operator_divide'] = (block) => {
-  const num1Code = javascriptGenerator.valueToCode(block, 'NUM1', javascriptGenerator.ORDER_NONE) || 0;
-  const num2Code = javascriptGenerator.valueToCode(block, 'NUM2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_divide'] = function (block) {
+  const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
+  const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
   const code = `(runtime.number(${num1Code}) / runtime.number(${num2Code}))`;
-  return [code, javascriptGenerator.ORDER_DIVISION];
+  return [code, this.ORDER_DIVISION];
 };
 
-javascriptGenerator['operator_random'] = (block) => {
-  const minValue = javascriptGenerator.valueToCode(block, 'FROM', javascriptGenerator.ORDER_NONE) || 0;
-  const maxValue = javascriptGenerator.valueToCode(block, 'TO', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_random'] = function (block) {
+  const minValue = this.valueToCode(block, 'FROM', this.ORDER_NONE) || 0;
+  const maxValue = this.valueToCode(block, 'TO', this.ORDER_NONE) || 0;
   const code = `runtime.random(${minValue}, ${maxValue})`;
-  return [code, javascriptGenerator.ORDER_FUNCTION_CALL];
+  return [code, this.ORDER_FUNCTION_CALL];
 };
 
-javascriptGenerator['operator_gt'] = (block) => {
+javascriptGenerator['operator_gt'] = function (block) {
   // >
-  const operand1Code = javascriptGenerator.valueToCode(block, 'OPERAND1', javascriptGenerator.ORDER_NONE) || 0;
-  const operand2Code = javascriptGenerator.valueToCode(block, 'OPERAND2', javascriptGenerator.ORDER_NONE) || 0;
+  const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
+  const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
   const code = `(runtime.number(${operand1Code}) > runtime.number(${operand2Code}))`;
-  return [code, javascriptGenerator.ORDER_RELATIONAL];
+  return [code, this.ORDER_RELATIONAL];
 };
 
-javascriptGenerator['operator_lt'] = (block) => {
+javascriptGenerator['operator_lt'] = function (block) {
   // <
-  const operand1Code = javascriptGenerator.valueToCode(block, 'OPERAND1', javascriptGenerator.ORDER_NONE) || 0;
-  const operand2Code = javascriptGenerator.valueToCode(block, 'OPERAND2', javascriptGenerator.ORDER_NONE) || 0;
+  const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
+  const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
   const code = `(runtime.number(${operand1Code}) < runtime.number(${operand2Code}))`;
-  return [code, javascriptGenerator.ORDER_RELATIONAL];
+  return [code, this.ORDER_RELATIONAL];
 };
 
-javascriptGenerator['operator_equals'] = (block) => {
-  const operand1Code = javascriptGenerator.valueToCode(block, 'OPERAND1', javascriptGenerator.ORDER_NONE) || 0;
-  const operand2Code = javascriptGenerator.valueToCode(block, 'OPERAND2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_equals'] = function (block) {
+  const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
+  const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
   const code = `(${operand1Code} == ${operand2Code})`;
-  return [code, javascriptGenerator.ORDER_RELATIONAL];
+  return [code, this.ORDER_RELATIONAL];
 };
 
-javascriptGenerator['operator_and'] = (block) => {
-  const operand1Code = javascriptGenerator.valueToCode(block, 'OPERAND1', javascriptGenerator.ORDER_NONE) || 0;
-  const operand2Code = javascriptGenerator.valueToCode(block, 'OPERAND2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_and'] = function (block) {
+  const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
+  const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
   const code = `(${operand1Code} && ${operand2Code})`;
-  return [code, javascriptGenerator.ORDER_LOGICAL_AND];
+  return [code, this.ORDER_LOGICAL_AND];
 };
 
-javascriptGenerator['operator_or'] = (block) => {
-  const operand1Code = javascriptGenerator.valueToCode(block, 'OPERAND1', javascriptGenerator.ORDER_NONE) || 0;
-  const operand2Code = javascriptGenerator.valueToCode(block, 'OPERAND2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_or'] = function (block) {
+  const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
+  const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
   const code = `(${operand1Code} || ${operand2Code})`;
-  return [code, javascriptGenerator.ORDER_LOGICAL_OR];
+  return [code, this.ORDER_LOGICAL_OR];
 };
 
-javascriptGenerator['operator_not'] = (block) => {
-  const operandValue = javascriptGenerator.valueToCode(block, 'OPERAND', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_not'] = function (block) {
+  const operandValue = this.valueToCode(block, 'OPERAND', this.ORDER_NONE) || 0;
   const code = `!(${operandValue})`;
-  return [code, javascriptGenerator.ORDER_LOGICAL_NOT];
+  return [code, this.ORDER_LOGICAL_NOT];
 };
 
-javascriptGenerator['operator_join'] = (block) => {
-  const string1Value = javascriptGenerator.valueToCode(block, 'STRING1', javascriptGenerator.ORDER_NONE) || '""';
-  const string2Value = javascriptGenerator.valueToCode(block, 'STRING2', javascriptGenerator.ORDER_NONE) || '""';
+javascriptGenerator['operator_join'] = function (block) {
+  const string1Value = this.valueToCode(block, 'STRING1', this.ORDER_NONE) || '""';
+  const string2Value = this.valueToCode(block, 'STRING2', this.ORDER_NONE) || '""';
   const code = `(String(${string1Value}) + String(${string2Value}))`;
-  return [code, javascriptGenerator.ORDER_ATOMIC];
+  return [code, this.ORDER_ATOMIC];
 };
 
-javascriptGenerator['operator_letter_of'] = (block) => {
-  const letterValue = javascriptGenerator.valueToCode(block, 'LETTER', javascriptGenerator.ORDER_NONE) || 0;
-  const stringValue = javascriptGenerator.valueToCode(block, 'STRING', javascriptGenerator.ORDER_NONE) || '""';
+javascriptGenerator['operator_letter_of'] = function (block) {
+  const letterValue = this.valueToCode(block, 'LETTER', this.ORDER_NONE) || 0;
+  const stringValue = this.valueToCode(block, 'STRING', this.ORDER_NONE) || '""';
   const code = `(String(${stringValue}).at(${letterValue} - 1) || '')`;
-  return [code, javascriptGenerator.ORDER_ATOMIC];
+  return [code, this.ORDER_ATOMIC];
 };
 
-javascriptGenerator['operator_length'] = (block) => {
-  const stringValue = javascriptGenerator.valueToCode(block, 'STRING', javascriptGenerator.ORDER_NONE) || '""';
+javascriptGenerator['operator_length'] = function (block) {
+  const stringValue = this.valueToCode(block, 'STRING', this.ORDER_NONE) || '""';
   const code = `String(${stringValue}).length`;
-  return [code, javascriptGenerator.ORDER_MEMBER];
+  return [code, this.ORDER_MEMBER];
 };
 
-javascriptGenerator['operator_contains'] = (block) => {
-  const string1Value = javascriptGenerator.valueToCode(block, 'STRING1', javascriptGenerator.ORDER_NONE) || '""';
-  const string2Value = javascriptGenerator.valueToCode(block, 'STRING2', javascriptGenerator.ORDER_NONE) || '""';
+javascriptGenerator['operator_contains'] = function (block) {
+  const string1Value = this.valueToCode(block, 'STRING1', this.ORDER_NONE) || '""';
+  const string2Value = this.valueToCode(block, 'STRING2', this.ORDER_NONE) || '""';
   const code = `String(${string1Value}).includes(String(${string2Value}))`;
-  return [code, javascriptGenerator.ORDER_FUNCTION_CALL];
+  return [code, this.ORDER_FUNCTION_CALL];
 };
 
-javascriptGenerator['operator_mod'] = (block) => {
-  const num1Code = javascriptGenerator.valueToCode(block, 'NUM1', javascriptGenerator.ORDER_NONE) || 0;
-  const num2Code = javascriptGenerator.valueToCode(block, 'NUM2', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_mod'] = function (block) {
+  const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
+  const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
   const code = `(runtime.number(${num1Code}) % runtime.number(${num2Code}))`;
-  return [code, javascriptGenerator.ORDER_MODULUS];
+  return [code, this.ORDER_MODULUS];
 };
 
-javascriptGenerator['operator_round'] = (block) => {
-  const numCode = javascriptGenerator.valueToCode(block, 'NUM', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_round'] = function (block) {
+  const numCode = this.valueToCode(block, 'NUM', this.ORDER_NONE) || 0;
   const code = `Math.round(${numCode})`;
-  return [code, javascriptGenerator.ORDER_FUNCTION_CALL];
+  return [code, this.ORDER_FUNCTION_CALL];
 };
 
-javascriptGenerator['operator_mathop'] = (block) => {
-  const numCode = javascriptGenerator.valueToCode(block, 'NUM', javascriptGenerator.ORDER_NONE) || 0;
+javascriptGenerator['operator_mathop'] = function (block) {
+  const numCode = this.valueToCode(block, 'NUM', this.ORDER_NONE) || 0;
   const operatorValue = block.getFieldValue('OPERATOR');
   let code = '';
   if (operatorValue === 'ceiling') {
@@ -139,5 +139,5 @@ javascriptGenerator['operator_mathop'] = (block) => {
   } else {
     code += `Math.${operatorValue}(runtime.number(${numCode}))`;
   }
-  return [code, javascriptGenerator.ORDER_FUNCTION_CALL];
+  return [code, this.ORDER_FUNCTION_CALL];
 };

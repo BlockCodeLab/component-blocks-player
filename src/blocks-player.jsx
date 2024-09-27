@@ -2,7 +2,6 @@ import paperCore from 'paper/dist/paper-core';
 import { useRef, useEffect } from 'preact/hooks';
 import { useEditor } from '@blockcode/core';
 import { ScratchBlocks } from '@blockcode/blocks-editor';
-import javascriptGenerator from './generators/javascript';
 
 const supportedEvents = new Set([
   ScratchBlocks.Events.BLOCK_CHANGE,
@@ -18,7 +17,7 @@ const supportedEvents = new Set([
   ScratchBlocks.Events.VAR_RENAME,
 ]);
 
-export function BlocksPlayer({ width, height, onSetup, ...props }) {
+export function BlocksPlayer({ width, height, javascriptGenerator, onSetup, ...props }) {
   const ref = useRef(null);
   const { fileList, selectedFileId, modifyFile } = useEditor();
 

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events';
 import paperCore from 'paper/dist/paper-core';
 
-export default class Runtime extends EventEmitter {
+export class Runtime extends EventEmitter {
   static DEFAULT_FPS = 24;
 
   constructor(requestStop, fps = Runtime.DEFAULT_FPS) {
