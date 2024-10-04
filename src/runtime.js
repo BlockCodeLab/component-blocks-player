@@ -22,8 +22,13 @@ export class Runtime extends EventEmitter {
       console.log(code);
     }
 
-    const launcher = new Function('runtime', code);
-    launcher(this);
+    try {
+      const launcher = new Function('runtime', code);
+      launcher(this);
+    } catch (err) {
+      this.stop();
+      return err;
+    }
   }
 
   get core() {

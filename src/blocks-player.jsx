@@ -17,7 +17,7 @@ const supportedEvents = new Set([
   ScratchBlocks.Events.VAR_RENAME,
 ]);
 
-export function BlocksPlayer({ width, height, javascriptGenerator, onSetup, ...props }) {
+export function BlocksPlayer({ width, height, generator, onSetup, ...props }) {
   const ref = useRef(null);
   const { fileList, selectedFileId, modifyFile } = useEditor();
 
@@ -40,7 +40,7 @@ export function BlocksPlayer({ width, height, javascriptGenerator, onSetup, ...p
           '',
         );
         if (!ref.script || ref.xml !== xml) {
-          const script = javascriptGenerator.workspaceToCode(workspace);
+          const script = generator.workspaceToCode(workspace);
           if (ref.script !== script) modifyFile({ script });
         }
       });
