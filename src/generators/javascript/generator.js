@@ -39,7 +39,7 @@ export class JavascriptGenerator extends ScratchBlocks.Generator {
   ORDER_NONE = 99; // (...)
 
   constructor() {
-    super('JavaScript');
+    super('VM');
 
     /**
      * List of illegal variable names.
