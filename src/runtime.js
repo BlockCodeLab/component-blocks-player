@@ -119,8 +119,8 @@ export class Runtime extends EventEmitter {
     this._running = true;
     this.on('frame', this._handleFrameForGreaterThen.bind(this));
     this.on('start', this._handleStart.bind(this));
-    this.fire('start');
     this.resetTimer();
+    this.fire('start');
   }
 
   async stop() {
