@@ -91,13 +91,6 @@ export class JavascriptGenerator extends ScratchBlocks.Generator {
       // a || (b || c) -> a || b || c
       [this.ORDER_LOGICAL_OR, this.ORDER_LOGICAL_OR],
     ];
-
-    // Bind prototype functions to this object
-    for (const key in JavascriptGenerator.prototype) {
-      if (typeof JavascriptGenerator.prototype[key] === 'function') {
-        JavascriptGenerator.prototype[key] = JavascriptGenerator.prototype[key].bind(this);
-      }
-    }
   }
 
   /**
@@ -105,6 +98,13 @@ export class JavascriptGenerator extends ScratchBlocks.Generator {
    * @param {!ScratchBlocks.Workspace} workspace Workspace to generate code from.
    */
   init(workspace) {
+    // Bind prototype functions to this object
+    for (const key in this) {
+      if (typeof this[key] === 'function' && !ScratchBlocks.Generator.prototype[key]) {
+        this[key] = this[key].bind(this);
+      }
+    }
+
     // Create a dictionary of definitions to be printed before the code.
     this.definitions_ = Object.create(null);
     // Create a dictionary mapping desired function names in definitions_
