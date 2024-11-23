@@ -86,10 +86,10 @@ javascriptGenerator['operator_join'] = function (block) {
 };
 
 javascriptGenerator['operator_letter_of'] = function (block) {
-  const letterValue = this.valueToCode(block, 'LETTER', this.ORDER_NONE) || 0;
+  const letterValue = this.valueToCode(block, 'LETTER', this.ORDER_NONE) || 1;
   const stringValue = this.valueToCode(block, 'STRING', this.ORDER_NONE) || '""';
-  const code = `(String(${stringValue}).at(${letterValue} - 1) || '')`;
-  return [code, this.ORDER_ATOMIC];
+  const code = `runtime.list(String(${stringValue}), 'get', runtime.number(${letterValue}))`;
+  return [code, this.ORDER_FUNCTION_CALL];
 };
 
 javascriptGenerator['operator_length'] = function (block) {

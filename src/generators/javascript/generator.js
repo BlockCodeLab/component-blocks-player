@@ -38,6 +38,11 @@ export class JavascriptGenerator extends ScratchBlocks.Generator {
   ORDER_COMMA = 17; // ,
   ORDER_NONE = 99; // (...)
 
+  START_PROCESS = '\nruntime.abort = false;\n';
+  NEXT_LOOP = 'if (flash) continue;\nawait runtime.nextFrame();\nif (runtime.abort || !runtime.running) break;\n';
+  END_LOOP = 'if (runtime.abort || !runtime.running) break;\n\n';
+  EVENT_CALLBACK = `async (done) => {\nruntime.abort = false;\nconst flash = runtime.flash;\ndo {\n/* code */} while (false);\ndone();\n}`;
+
   constructor() {
     super('VM');
 
@@ -315,6 +320,10 @@ export class JavascriptGenerator extends ScratchBlocks.Generator {
       }
     }
     return at;
+  }
+
+  wrapAsync(code) {
+    return `await ${code};\nif (runtime.abort || !runtime.running) break;\n`;
   }
 }
 

@@ -62,7 +62,7 @@ javascriptGenerator['data_deleteoflist'] = function (block) {
     ScratchBlocks.LIST_VARIABLE_TYPE;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
 
-  code += `${listName}.splice(runtime.index(${indexCode}, ${listName}.length), 1);\n`;
+  code += `runtime.list(${listName}, 'remove', runtime.number(${indexCode}));\n`;
   return code;
 };
 
@@ -90,7 +90,7 @@ javascriptGenerator['data_insertatlist'] = function (block) {
     ScratchBlocks.LIST_VARIABLE_TYPE;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
   const itemCode = this.valueToCode(block, 'ITEM', this.ORDER_NONE) || '""';
-  code += `${listName}.splice(runtime.index(${indexCode}, ${listName}.length), 0, ${itemCode});\n`;
+  code += `runtime.list(${listName}, 'insert', runtime.number(${indexCode}), ${itemCode});\n`;
   return code;
 };
 
@@ -105,7 +105,7 @@ javascriptGenerator['data_replaceitemoflist'] = function (block) {
     ScratchBlocks.LIST_VARIABLE_TYPE;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
   const itemCode = this.valueToCode(block, 'ITEM', this.ORDER_NONE) || '""';
-  code += `${listName}.splice(runtime.index(${indexCode}, ${listName}.length), 1, ${itemCode});\n`;
+  code += `runtime.list(${listName}, 'replace', runtime.number(${indexCode}), ${itemCode});\n`;
   return code;
 };
 
@@ -114,7 +114,7 @@ javascriptGenerator['data_itemoflist'] = function (block) {
     this.variableDB_.getName(block.getFieldValue('LIST'), ScratchBlocks.Variables.NAME_TYPE) +
     ScratchBlocks.LIST_VARIABLE_TYPE;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
-  const code = `(${listName}[runtime.index(${indexCode}, ${listName}.length)] || '""')`;
+  const code = `runtime.list(${listName}, 'get', runtime.number(${indexCode}))`;
   return [code, this.ORDER_CONDITIONAL];
 };
 

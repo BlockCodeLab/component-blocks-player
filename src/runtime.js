@@ -4,10 +4,11 @@ import paperCore from 'paper/dist/paper-core';
 export class Runtime extends EventEmitter {
   static DEFAULT_FPS = 24;
 
-  constructor(requestStop, fps = Runtime.DEFAULT_FPS) {
+  constructor(requestStop, flashMode = false, fps = Runtime.DEFAULT_FPS) {
     super();
     this._fps = fps;
     this._frame_sec = 1 / fps;
+    this._frame_start = 0;
     this._running = false;
     this._requestStop = requestStop;
     this._timer = 0;
@@ -15,6 +16,7 @@ export class Runtime extends EventEmitter {
     this._data = {};
     this._greaterThen = {};
     this._eventsHappening = {};
+    this._flashMode = flashMode;
   }
 
   launch(code) {
@@ -33,6 +35,10 @@ export class Runtime extends EventEmitter {
 
   get core() {
     return paperCore;
+  }
+
+  get flashMode() {
+    return this._flashMode;
   }
 
   get data() {
@@ -76,7 +82,7 @@ export class Runtime extends EventEmitter {
     this.emit(eventName, ...args);
     this._eventsHappening[eventName] = this._eventsHappening[eventName] || [];
     if (this._eventsHappening[eventName].length > 0) {
-      return Promise.race(
+      return Promise.all(
         this._eventsHappening[eventName].map(async (happening, i) => {
           if (!happening) {
             this._eventsHappening[eventName][i] = true;
@@ -106,12 +112,13 @@ export class Runtime extends EventEmitter {
 
   async _handleStart() {
     while (this.running) {
+      this._frame_start = Date.now();
       if (!paperCore.project) {
         this.stop();
         break;
       }
-      await this.nextFrame();
       this.fire('frame');
+      await this.nextFrame();
     }
   }
 
@@ -138,7 +145,9 @@ export class Runtime extends EventEmitter {
   }
 
   nextFrame() {
-    return this.sleep(this._frame_sec);
+    let sec = (Date.now() - this._frame_start) / 1000;
+    if (sec > this._frame_sec) return;
+    return this.sleep(sec);
   }
 
   random(num1 = 1, num2 = 10) {
@@ -160,5 +169,25 @@ export class Runtime extends EventEmitter {
 
   clamp(n, min, max) {
     return Math.min(Math.max(n, min), max);
+  }
+
+  list(list, op, index, value) {
+    if (index < 1 || index > list.length) {
+      return '';
+    }
+    index -= 1;
+    switch (op) {
+      case 'get':
+        return list[index];
+      case 'remove':
+        list.splice(index, 1);
+        return;
+      case 'replace':
+        list.splice(index, 1, value);
+        return;
+      case 'insert':
+        list.splice(index, 0, value);
+        return;
+    }
   }
 }

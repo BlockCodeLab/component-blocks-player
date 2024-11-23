@@ -1,15 +1,12 @@
 import { javascriptGenerator } from './generator';
 
-const AWAIT_ABORT = 'if (abort || !runtime.running) break;\n';
-const NEXT_LOOP = `  await runtime.nextFrame();\n  ${AWAIT_ABORT}`;
-
 javascriptGenerator['control_wait'] = function (block) {
   let code = '';
   if (this.STATEMENT_PREFIX) {
     code += this.injectId(this.STATEMENT_PREFIX, block);
   }
   const durationCode = this.valueToCode(block, 'DURATION', this.ORDER_NONE) || 0;
-  code += `await runtime.sleep(runtime.number(${durationCode}));\n${AWAIT_ABORT}`;
+  code += this.wrapAsync(`runtime.sleep(runtime.number(${durationCode}))`);
   return code;
 };
 
@@ -25,7 +22,9 @@ javascriptGenerator['control_repeat'] = function (block) {
   }
 
   const timesCode = this.valueToCode(block, 'TIMES', this.ORDER_NONE) || 0;
-  code += `for (let _ = 0; _ < runtime.number(${timesCode}); _++) {\n${branchCode}${NEXT_LOOP}}\n${AWAIT_ABORT}`;
+  code += `for (let _ = 0; _ < runtime.number(${timesCode}); _++) {`;
+  code += `${this.START_PROCESS}${branchCode}${this.NEXT_LOOP}`;
+  code += `}\n${this.END_LOOP}`;
   return code;
 };
 
@@ -40,7 +39,9 @@ javascriptGenerator['control_forever'] = function (block) {
     branchCode = this.prefixLines(this.injectId(this.STATEMENT_SUFFIX, block), this.INDENT) + branchCode;
   }
 
-  code += `while (true) {\n${branchCode}${NEXT_LOOP}}\n${AWAIT_ABORT}`;
+  code += `while (true) {`;
+  code += `${this.START_PROCESS}${branchCode}${this.NEXT_LOOP}`;
+  code += `}\n${this.END_LOOP}`;
   return code;
 };
 
@@ -77,7 +78,9 @@ javascriptGenerator['control_wait_until'] = function (block) {
     code += this.injectId(this.STATEMENT_PREFIX, block);
   }
   const conditionCode = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'false';
-  code += `while (!(${conditionCode})) {\n${NEXT_LOOP}}\n${AWAIT_ABORT}`;
+  code += `while (!(${conditionCode})) {\n`;
+  code += `${this.NEXT_LOOP}`;
+  code += `}\n${this.END_LOOP}`;
   return code;
 };
 
@@ -93,7 +96,9 @@ javascriptGenerator['control_repeat_until'] = function (block) {
   }
 
   const conditionCode = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'false';
-  code += `while (!(${conditionCode})) {\n${branchCode}${NEXT_LOOP}}\n${AWAIT_ABORT}`;
+  code += `while (!(${conditionCode})) {`;
+  code += `${this.START_PROCESS}${branchCode}${this.NEXT_LOOP}`;
+  code += `}\n${this.END_LOOP}`;
   return code;
 };
 
@@ -109,7 +114,9 @@ javascriptGenerator['control_while'] = function (block) {
   }
 
   const conditionCode = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'false';
-  code += `while (${conditionCode}) {\n${branchCode}${NEXT_LOOP}}\n${AWAIT_ABORT}`;
+  code += `while (${conditionCode}) {`;
+  code += `${this.START_PROCESS}${branchCode}${this.NEXT_LOOP}`;
+  code += `}\n${this.END_LOOP}`;
   return code;
 };
 
@@ -128,7 +135,7 @@ javascriptGenerator['control_stop'] = function (block) {
       code += 'return done();\n';
       break;
     case 'other scripts in sprite':
-      code += 'abort = true;\n';
+      code += 'runtime.abort = true;';
       break;
   }
   return code;

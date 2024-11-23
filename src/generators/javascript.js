@@ -1,7 +1,7 @@
 import './javascript/color';
 import './javascript/control';
 import './javascript/data';
-import './javascript/event';
+import './javascript/events';
 import './javascript/math';
 import './javascript/operators';
 import './javascript/procedures';

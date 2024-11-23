@@ -1,17 +1,14 @@
 import { ScratchBlocks } from '@blockcode/blocks-editor';
 import { javascriptGenerator } from './generator';
 
-const AWAIT_ABORT = 'if (abort || !runtime.running) break;\n';
-const EVENT_CALLBACK = `async (done) => {\ndo {\n/* code */} while (false);\ndone();\n}`;
-
 javascriptGenerator['event_whenflagclicked'] = function () {
-  return `runtime.when('start', ${EVENT_CALLBACK});\n`;
+  return `runtime.when('start', ${this.EVENT_CALLBACK});\n`;
 };
 
 javascriptGenerator['event_whengreaterthan'] = function (block) {
   const nameValue = block.getFieldValue('WHENGREATERTHANMENU');
   const valueCode = this.valueToCode(block, 'VALUE', this.ORDER_NONE) || 10;
-  return `runtime.whenGreaterThen('${nameValue}', runtime.number(${valueCode}), ${EVENT_CALLBACK});\n`;
+  return `runtime.whenGreaterThen('${nameValue}', runtime.number(${valueCode}), ${this.EVENT_CALLBACK});\n`;
 };
 
 javascriptGenerator['event_whenbroadcastreceived'] = function (block) {
@@ -19,7 +16,7 @@ javascriptGenerator['event_whenbroadcastreceived'] = function (block) {
     block.getFieldValue('BROADCAST_OPTION'),
     ScratchBlocks.Variables.NAME_TYPE,
   );
-  return `runtime.when('message:${messageName}', ${EVENT_CALLBACK});\n`;
+  return `runtime.when('message:${messageName}', ${this.EVENT_CALLBACK});\n`;
 };
 
 javascriptGenerator['event_broadcast_menu'] = function (block) {
@@ -46,6 +43,6 @@ javascriptGenerator['event_broadcastandwait'] = function (block) {
     code += this.injectId(this.STATEMENT_PREFIX, block);
   }
   const messageName = this.valueToCode(block, 'BROADCAST_INPUT', this.ORDER_NONE) || 'message1';
-  code += `await runtime.fire('message:${messageName}')\n${AWAIT_ABORT}`;
+  code += this.wrapAsync(`runtime.fire('message:${messageName}')`);
   return code;
 };
