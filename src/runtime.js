@@ -145,9 +145,7 @@ export class Runtime extends EventEmitter {
   }
 
   nextFrame() {
-    let sec = (Date.now() - this._frame_start) / 1000;
-    if (sec > this._frame_sec) return;
-    return this.sleep(sec);
+    return this.sleep(this._frame_sec);
   }
 
   random(num1 = 1, num2 = 10) {
